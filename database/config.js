@@ -1,16 +1,9 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-
 const dbConnection = async () => {
   try {
-    await mongoose.connect(
-      process.env.MONGODB_URI,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
+    await mongoose.connect(process.env.MONGODB_URI);
 
     console.log('DB Online');
   } catch (error) {
