@@ -5,13 +5,17 @@ const Usuario = require('../models/usuario');
 const { generarJWT } = require('../helpers/jwt');
 
 const obtenerUsuarios = async (req, res) => {
-  const usuarios = await Usuario.find({}, 'nombre email role google');
+  const desde = Number(req.query.desde) || 0;
+
+  const [usuarios, total] = await Promise.all([
+    Usuario.find({}, 'nombre email role google img').skip(desde).limit(5),
+    Usuario.countDocuments(),
+  ]);
 
   res.json({
     ok: true,
-    msg: 'Get Usuarios',
     usuarios,
-    uid: req.uid,
+    total,
   });
 };
 
@@ -77,9 +81,13 @@ const actualizarUsuario = async (req, res) => {
 
     campos.email = email;
 
-    const usuarioActualizado = await Usuario.findOneAndUpdate({ _id: uid }, campos, {
-      new: true,
-    });
+    const usuarioActualizado = await Usuario.findOneAndUpdate(
+      { _id: uid },
+      campos,
+      {
+        new: true,
+      }
+    );
 
     res.json({
       ok: true,

@@ -1,5 +1,6 @@
 /* 
-Ruta: /api/usuarios
+  Usuarios
+  Path: /api/usuarios
 */
 
 const { Router } = require('express');
@@ -21,9 +22,10 @@ router.get('/', validarJWT, obtenerUsuarios);
 router.post(
   '/',
   [
+    validarJWT,
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     check('password', 'La contraseña es obligatoria').not().isEmpty(),
-    check('email', 'El nombre es obligatorio').isEmail(),
+    check('email', 'El email es obligatorio').isEmail(),
     validarCampos,
   ],
   crearUsuario
@@ -35,7 +37,7 @@ router.put(
     validarJWT,
     check('id', 'No es un ID valido').isMongoId(),
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-    check('email', 'El nombre es obligatorio').isEmail(),
+    check('email', 'El email es obligatorio').isEmail(),
     validarCampos,
   ],
   actualizarUsuario
