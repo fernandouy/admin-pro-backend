@@ -11,6 +11,9 @@ const PORT = process.env.PORT || 3000;
 // Configurar CORS
 app.use(cors());
 
+// Directorio publico
+app.use(express.static('public'));
+
 // Parser del body
 app.use(express.json());
 
